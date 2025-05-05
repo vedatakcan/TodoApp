@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.vedatakcan.todoapp.data.model.Todo
@@ -93,7 +94,9 @@ fun TodoItem(
         ) {
             Text(
                 text = if (todo.isDone) "✅ ${todo.title}" else todo.title,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             IconButton(onClick = { onToggleDone(todo) }) {
                 Icon(Icons.Default.Check, contentDescription = "Tamamlandı")
