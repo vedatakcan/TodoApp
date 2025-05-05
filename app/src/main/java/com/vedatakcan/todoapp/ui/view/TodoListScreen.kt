@@ -1,5 +1,6 @@
 package com.vedatakcan.todoapp.ui.view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.vedatakcan.todoapp.data.model.Todo
 import com.vedatakcan.todoapp.ui.viewmodel.TodoViewModel
 
@@ -25,7 +27,8 @@ import com.vedatakcan.todoapp.ui.viewmodel.TodoViewModel
 @Composable
 fun TodoListScreen(
     viewModel: TodoViewModel,
-    onNavigateToAddTodo: () -> Unit
+    navController: NavController,
+    onNavigateToAddTodo: () -> Unit,
 ) {
     val todos by viewModel.todos.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
@@ -64,6 +67,9 @@ fun TodoListScreen(
                     onEdit = {
                         todoToEdit = it
                         showDialog = true
+                    },
+                    onClick = {
+                        navController.navigate("detail/${todo.id}")
                     }
                 )
             }
@@ -76,12 +82,15 @@ fun TodoItem(
     todo: Todo,
     onDelete: () -> Unit,
     onToggleDone: (Todo) -> Unit,
-    onEdit: (Todo) -> Unit
+    onEdit: (Todo) -> Unit,
+    onClick: (Todo) -> Unit
 ) {
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onClick(todo) },
+
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(

@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.vedatakcan.todoapp.data.model.Todo
@@ -35,6 +36,7 @@ fun AppNavGraph(
 
             TodoListScreen(
                 viewModel = viewModel,
+                navController = navController,
                 onNavigateToAddTodo = {
                     navController.navigate("add_todo")
                 }
@@ -52,5 +54,20 @@ fun AppNavGraph(
                 }
             )
         }
+
+        composable("detail/{todoId}") { backStackEntry ->
+            val viewModel: TodoViewModel = hiltViewModel()
+            val todoId = backStackEntry.arguments?.getString("todoId")?.toIntOrNull()
+            val todos by viewModel.todos.collectAsState()
+
+            val todo = todos.find { it.id == todoId }
+
+            if (todo != null) {
+                TodoDetailScreen(todo = todo, onBack = { navController.popBackStack() })
+            } else {
+                Text("Görev bulunamadı veya yükleniyor...")
+            }
+        }
+
     }
 }
