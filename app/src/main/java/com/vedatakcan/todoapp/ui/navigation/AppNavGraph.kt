@@ -1,4 +1,4 @@
-package com.vedatakcan.todoapp.ui.view
+package com.vedatakcan.todoapp.ui.navigation
 import androidx.compose.runtime.*
 import androidx.compose.material3.*
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -7,6 +7,9 @@ import com.vedatakcan.todoapp.ui.viewmodel.TodoViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.vedatakcan.todoapp.ui.view.AddTodoScreen
+import com.vedatakcan.todoapp.ui.view.TodoDetailScreen
+import com.vedatakcan.todoapp.ui.view.TodoListScreen
 
 @Composable
 fun AppNavGraph(
